@@ -1,0 +1,29 @@
+<div class="container">
+  <h1>Присоединиться к игре "<%= @game.name %>"</h1>
+
+  <div class="game-info">
+    <p><strong>Игроков:</strong> <%= @game.players.count %>/<%= @game.max_players %></p>
+  </div>
+
+  <%= form_for :player, url: join_game_path(@game), method: :post do |f| %>
+    <% if @player&.errors&.any? %>
+      <div class="alert alert-error">
+        <ul>
+          <% @player.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= f.label :name, "Ваше имя" %>
+      <%= f.text_field :name, required: true %>
+    </div>
+
+    <div class="nav-links">
+      <%= f.submit "Присоединиться", class: "button" %>
+      <%= link_to "Назад", game_path(@game), class: "button button-secondary" %>
+    </div>
+  <% end %>
+</div> 

@@ -1,0 +1,8 @@
+<%= form_tag join_game_path(@game), method: :post do %>
+  <div class="field">
+    <%= label_tag :player_name, "Ваше имя" %>
+    <%= text_field_tag :player_name, nil, required: true %>
+  </div>
+
+  <%= submit_tag "Присоединиться к игре", class: "button" %>
+<% end %> 

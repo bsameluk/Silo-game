@@ -1,0 +1,252 @@
+<div class="container">
+  <h1>Игра "<%= @game.name %>"</h1>
+
+  <div class="game-info">
+    <p><strong>Вы играете как:</strong> <%= @current_player.name %></p>
+    <p><strong>Максимум игроков:</strong> <%= @game.max_players %></p>
+    <p><strong>Текущее количество игроков:</strong> <%= @game.players.count %></p>
+  </div>
+
+  <div class="players-section">
+    <h2>Игроки в бункере:</h2>
+    <div class="players-cards">
+      <% @game.players.each do |player| %>
+        <div class="player-card <%= 'current-player' if player == @current_player %>">
+          <div class="player-card-header">
+            <h3>
+              <%= player.name %>
+              <% if player == @current_player %>
+                <span class="current-player-marker">(вы)</span>
+              <% end %>
+            </h3>
+          </div>
+          
+          <div class="player-card-content">
+            <% if player.bio_info.present? %>
+              <div class="attribute <%= 'hidden' unless player == @current_player || player.is_show_bio_info %>">
+                <div class="attribute-header">
+                  <span class="attribute-label">Биография:</span>
+                  <% if player == @current_player %>
+                    <%= button_to player.is_show_bio_info ? "Скрыть" : "Показать",
+                                toggle_attribute_game_player_path(@game, player, attribute: 'bio_info'),
+                                method: :patch,
+                                class: "toggle-button #{player.is_show_bio_info ? 'active' : ''}" %>
+                  <% end %>
+                </div>
+                <span class="attribute-value"><%= player == @current_player || player.is_show_bio_info ? player.bio_info : "???" %></span>
+              </div>
+            <% end %>
+
+            <% if player.health_status.present? %>
+              <div class="attribute <%= 'hidden' unless player == @current_player || player.is_show_health_status %>">
+                <div class="attribute-header">
+                  <span class="attribute-label">Здоровье:</span>
+                  <% if player == @current_player %>
+                    <%= button_to player.is_show_health_status ? "Скрыть" : "Показать",
+                                toggle_attribute_game_player_path(@game, player, attribute: 'health_status'),
+                                method: :patch,
+                                class: "toggle-button #{player.is_show_health_status ? 'active' : ''}" %>
+                  <% end %>
+                </div>
+                <span class="attribute-value"><%= player == @current_player || player.is_show_health_status ? player.health_status : "???" %></span>
+              </div>
+            <% end %>
+
+            <% if player.character.present? %>
+              <div class="attribute <%= 'hidden' unless player == @current_player || player.is_show_character %>">
+                <div class="attribute-header">
+                  <span class="attribute-label">Характер:</span>
+                  <% if player == @current_player %>
+                    <%= button_to player.is_show_character ? "Скрыть" : "Показать",
+                                toggle_attribute_game_player_path(@game, player, attribute: 'character'),
+                                method: :patch,
+                                class: "toggle-button #{player.is_show_character ? 'active' : ''}" %>
+                  <% end %>
+                </div>
+                <span class="attribute-value"><%= player == @current_player || player.is_show_character ? player.character : "???" %></span>
+              </div>
+            <% end %>
+
+            <% if player.hobbies.present? %>
+              <div class="attribute <%= 'hidden' unless player == @current_player || player.is_show_hobbies %>">
+                <div class="attribute-header">
+                  <span class="attribute-label">Хобби:</span>
+                  <% if player == @current_player %>
+                    <%= button_to player.is_show_hobbies ? "Скрыть" : "Показать",
+                                toggle_attribute_game_player_path(@game, player, attribute: 'hobbies'),
+                                method: :patch,
+                                class: "toggle-button #{player.is_show_hobbies ? 'active' : ''}" %>
+                  <% end %>
+                </div>
+                <span class="attribute-value"><%= player == @current_player || player.is_show_hobbies ? player.hobbies : "???" %></span>
+              </div>
+            <% end %>
+
+            <% if player.knowledge.present? %>
+              <div class="attribute <%= 'hidden' unless player == @current_player || player.is_show_knowledge %>">
+                <div class="attribute-header">
+                  <span class="attribute-label">Знания:</span>
+                  <% if player == @current_player %>
+                    <%= button_to player.is_show_knowledge ? "Скрыть" : "Показать",
+                                toggle_attribute_game_player_path(@game, player, attribute: 'knowledge'),
+                                method: :patch,
+                                class: "toggle-button #{player.is_show_knowledge ? 'active' : ''}" %>
+                  <% end %>
+                </div>
+                <span class="attribute-value"><%= player == @current_player || player.is_show_knowledge ? player.knowledge : "???" %></span>
+              </div>
+            <% end %>
+
+            <% if player.inventory.present? %>
+              <div class="attribute <%= 'hidden' unless player == @current_player || player.is_show_inventory %>">
+                <div class="attribute-header">
+                  <span class="attribute-label">Инвентарь:</span>
+                  <% if player == @current_player %>
+                    <%= button_to player.is_show_inventory ? "Скрыть" : "Показать",
+                                toggle_attribute_game_player_path(@game, player, attribute: 'inventory'),
+                                method: :patch,
+                                class: "toggle-button #{player.is_show_inventory ? 'active' : ''}" %>
+                  <% end %>
+                </div>
+                <span class="attribute-value"><%= player == @current_player || player.is_show_inventory ? player.inventory : "???" %></span>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="nav-links">
+    <%= link_to "К списку игр", games_path, class: "button button-secondary" %>
+  </div>
+</div>
+
+<style>
+/* Стили для карточек игроков */
+.players-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 20px 0;
+  justify-content: flex-start;
+}
+
+.player-card {
+  flex: 0 0 300px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border: 1px solid #e1e1e1;
+}
+
+.player-card.current-player {
+  border: 2px solid #3498db;
+}
+
+.player-card-header {
+  background: #f8f9fa;
+  padding: 10px 15px;
+  border-bottom: 1px solid #e1e1e1;
+}
+
+.player-card-header h3 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.2em;
+}
+
+.player-card-content {
+  padding: 15px;
+}
+
+.attribute {
+  margin-bottom: 10px;
+  padding: 10px;
+  background: #f8f9fa;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.attribute:last-child {
+  margin-bottom: 0;
+}
+
+.attribute-label {
+  display: block;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-bottom: 4px;
+}
+
+.attribute-value {
+  display: block;
+  color: #34495e;
+}
+
+.current-player-marker {
+  color: #3498db;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+
+/* Обновляем стили контейнера для большей ширины */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Медиа-запрос для адаптивности */
+@media (max-width: 768px) {
+  .players-cards {
+    justify-content: center;
+  }
+  
+  .player-card {
+    flex: 0 0 100%;
+  }
+}
+
+.attribute.hidden {
+  background: #eee;
+  opacity: 0.7;
+}
+
+.attribute.hidden .attribute-value {
+  color: #666;
+  font-style: italic;
+}
+
+.attribute-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.toggle-button {
+  padding: 4px 8px;
+  font-size: 12px;
+  border: 1px solid #3498db;
+  background: white;
+  color: #3498db;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.toggle-button:hover {
+  background: #3498db;
+  color: white;
+}
+
+.toggle-button.active {
+  background: #3498db;
+  color: white;
+}
+</style>

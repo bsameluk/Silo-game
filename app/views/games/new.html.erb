@@ -1,0 +1,15 @@
+<h1>Создать новую игру</h1>
+
+<%= form_with(model: @game, local: true) do |f| %>
+  <div class="field">
+    <%= f.label :name, 'Название игры' %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :max_players, 'Максимальное количество игроков' %>
+    <%= f.number_field :max_players %>
+  </div>
+
+  <%= f.submit 'Создать игру', class: 'submit-button' %>
+<% end %> 

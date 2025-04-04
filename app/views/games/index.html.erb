@@ -1,0 +1,14 @@
+<h1>Игры в бункер</h1>
+
+<div class="games-list">
+  <h2>Доступные игры</h2>
+  
+  <% @games.each do |game| %>
+    <div class="game-item">
+      <h3>Игра #<%= game.id %></h3>
+      <%= link_to 'Присоединиться', join_game_path(game), method: :post, class: 'join-button' %>
+    </div>
+  <% end %>
+</div>
+
+<%= link_to 'Создать новую игру', new_game_path, class: 'create-button' %> 

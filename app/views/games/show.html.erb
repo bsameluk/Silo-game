@@ -1,0 +1,32 @@
+<div class="container">
+  <h1>Игра "<%= @game.name %>"</h1>
+
+  <div class="game-info">
+    <p><strong>Максимум игроков:</strong> <%= @game.max_players %></p>
+    <p><strong>Текущее количество игроков:</strong> <%= @game.players.count %></p>
+  </div>
+
+  <div class="players-section">
+    <h2>Список игроков:</h2>
+    <% if @game.players.any? %>
+      <ul class="players-list">
+        <% @game.players.each do |player| %>
+          <li><%= player.name %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>Пока нет игроков</p>
+    <% end %>
+  </div>
+
+  <div class="nav-links">
+    <%= link_to "Вернуться к списку игр", games_path, class: "button button-secondary" %>
+  </div>
+</div>
+
+<div class="game-code">
+  <h3>Код для подключения:</h3>
+  <p class="code"><%= @game.id %></p>
+</div>
+
+<!-- Здесь будет добавляться список игроков и игровой процесс --> 
